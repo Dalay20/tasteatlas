@@ -1,5 +1,6 @@
 import './App.css'
 
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid2' 
 import DishTable from './components/DishTable'
 import Student from './components/Student'
@@ -13,11 +14,17 @@ function App() {
   let url = "https://raw.githubusercontent.com/aavendan/datos/refs/heads/main/tasteatlas/bestdishes100-2425.json"
   
   // PENDIENTE: Variable de estado y la función de modificación. 
-  
+   const [dishes, setDishes] = useState<Dish[]>([]);
 
 
   // PENDIENTE: 
   // Realizar una petición asíncrona a la URL. La respuesta es un JSON. 
+  useEffect(() => {
+    fetch(url)
+      .then(response => response.json())
+      .then((data: Dish[]) => setDishes(data))
+      .catch(error => console.error("Error al cargar datos:", error));
+  }, []);
   // Al recibir la respuesta, actualice la variable de estado.
 
   
@@ -30,7 +37,9 @@ function App() {
         <Grid size={{ xs: 12 }}>
 
           {/* PENDIENTE: Envíe sus datos (apellidos, nombres y paralelo) como props del componente */}
-          <Student></Student>
+          <Student nombres="Diego Javier"
+          apellidos="Alay Mosquera"
+          paralelo={102}></Student>
 
         </Grid>
         
@@ -38,7 +47,7 @@ function App() {
         <Grid size={{ xs: 12 }}>
 
           {/* PENDIENTE: Envíe la variable de estado como prop */}
-          <DishTable data={  }></DishTable>
+          <DishTable data={dishes}></DishTable>
         
         </Grid>
         
